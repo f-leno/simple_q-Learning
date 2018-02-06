@@ -106,11 +106,14 @@ class QLearning:
             qValue= self.readQTable(state,action)
             V = self.get_max_Q_value(statePrime)        
             newQ = qValue + self.alpha * (reward + self.gamma * V - qValue)
+            # If the agent uses tile coding, the state is processed before accessing the Q-table
+            if self.usesTile:
+                state = tuple(tilecoding.tiling(state))
             self.qTable[(state,action)] = newQ
 
     def readQTable(self,state,action):             
         """Returns one value from the Qtable"""
-        #If the agent uses tile coding, the state is processed before acessing the Q-table
+        #If the agent uses tile coding, the state is processed before accessing the Q-table
         if self.usesTile:
             state = tuple(tilecoding.tiling(state))
 
